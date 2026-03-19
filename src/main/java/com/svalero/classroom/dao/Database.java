@@ -1,24 +1,23 @@
 package com.svalero.classroom.dao;
 
-import lombok.Getter;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import org.jdbi.v3.core.Handle;
+import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 
 public class Database {
 
-    @Getter
-    private static Connection connection;
+    public static Jdbi jdbi;
+    public static Handle db;
 
-    public static void connect() throws ClassNotFoundException, SQLException {
-        if (connection == null) {
-            Class.forName("org.mariadb.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/svclassroom", "classroom", "password");
-        }
+    public static void connect() throws ClassNotFoundException {
+        Class.forName("org.mariadb.jdbc.Driver");
+        // TODO Utilizar fichero de configuración en lugar de hardcodear contraseñas aqui
+        jdbi = Jdbi.create("jdbc:mariadb://localhost:3306/svclassroom", "classroom", "password");
+        jdbi.installPlugin(new SqlObjectPlugin());
+        db = jdbi.open();
     }
 
-    public static void close() throws SQLException {
-        connection.close();
+    public static void close() {
+        db.close();
     }
 }
