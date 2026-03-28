@@ -7,16 +7,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!doctype html>
-<html lang="en" data-bs-theme="auto">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <title>San Valero Classroom</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  </head>
-  <body>
+<%@ include file="includes/header.jsp" %>
     <main>
       <section class="py-5 text-center container">
         <div class="row py-lg-5">
@@ -26,7 +17,7 @@
               Estos son tus classrooms activos
             </p>
             <p>
-              <a href="#" class="btn btn-primary my-2">Crear un classroom</a>
+              <a href="new-classroom.jsp" class="btn btn-primary my-2">Crear un classroom</a>
             </p>
           </div>
         </div>
@@ -49,7 +40,7 @@
             %>
             <div class="col">
               <div class="card shadow-sm">
-                <a href="#">
+                <a href="view-classroom?id=<%= classroom.getId() %>">
                   <img src="images/<%= classroom.getImage() %>" width="400" height="250">
                 </a>
                 <div class="card-body">
@@ -60,12 +51,12 @@
                     class="d-flex justify-content-between align-items-center"
                   >
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-warning">
+                      <a href="#" type="button" class="btn btn-sm btn-outline-warning">
                         Editar
-                      </button>
-                      <button type="button" class="btn btn-sm btn-outline-danger">
+                      </a>
+                      <a href="remove-classroom?id=<%= classroom.getId() %>" type="button" class="btn btn-sm btn-outline-danger">
                         Eliminar
-                      </button>
+                      </a>
                     </div>
                     <small class="text-body-secondary"><%= classroom.getCategory() %></small>
                   </div>
@@ -79,15 +70,5 @@
         </div>
       </div>
     </main>
-    <footer class="text-body-secondary py-5">
-      <div class="container">
-        <p class="mb-1">
-          San Valero Classroom
-        </p>
-        <p class="mb-0">
-          (c) 2025 - Clase de Programación de 1º DAM-DAW
-        </p>
-      </div>
-    </footer>
-  </body>
-</html>
+
+<%@ include file="includes/footer.jsp" %>
