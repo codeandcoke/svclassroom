@@ -12,7 +12,7 @@ public interface ClassroomDao {
     @SqlUpdate("INSERT INTO classrooms (name, description, image, meet_url, category) VALUES (?, ?, ?, ?, ?)")
     void add(String name, String description, String image, String meetURL, String category);
 
-    @SqlUpdate("DELETE classrooms WHERE id = ?")
+    @SqlUpdate("DELETE FROM classrooms WHERE id = ?")
     void delete(int id);
 
     @SqlUpdate("UPDATE classrooms SET name = ?, description = ?, image = ?, meet_url = ?, categorya = ? WHERE id = ?")
