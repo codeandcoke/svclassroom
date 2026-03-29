@@ -40,8 +40,8 @@
             %>
             <div class="col">
               <div class="card shadow-sm">
-                <a href="view-classroom?id=<%= classroom.getId() %>">
-                  <img src="images/<%= classroom.getImage() %>" width="400" height="250">
+                <a href="view-classroom.jsp?id=<%= classroom.getId() %>">
+                  <img src="../classroom_images/<%= classroom.getImage() %>" width="400" height="250">
                 </a>
                 <div class="card-body">
                   <p class="card-text">
@@ -54,7 +54,8 @@
                       <a href="#" type="button" class="btn btn-sm btn-outline-warning">
                         Editar
                       </a>
-                      <a href="remove-classroom?id=<%= classroom.getId() %>" type="button" class="btn btn-sm btn-outline-danger">
+                      <a href="remove-classroom?id=<%= classroom.getId() %>" type="button" class="btn btn-sm btn-outline-danger"
+                        onclick="return confirm('¿Estás seguro?')">
                         Eliminar
                       </a>
                     </div>
