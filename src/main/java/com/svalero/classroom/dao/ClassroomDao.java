@@ -22,7 +22,15 @@ public interface ClassroomDao {
     @UseRowMapper(ClassroomMapper.class)
     List<Classroom> getAll();
 
-    @SqlQuery("SELECT * FROM classrooms WHERE categorya = ?")
+    @SqlQuery("SELECT * FROM classrooms WHERE category = ?")
     @UseRowMapper(ClassroomMapper.class)
     List<Classroom> getByCategory(String category);
+
+    @SqlQuery("SELECT * FROM classrooms WHERE id = ?")
+    @UseRowMapper(ClassroomMapper.class)
+    Classroom getById(int id);
+
+    @SqlQuery("SELECT * FROM classrooms WHERE name = ?")
+    @UseRowMapper(ClassroomMapper.class)
+    Classroom getByName(String name);
 }
