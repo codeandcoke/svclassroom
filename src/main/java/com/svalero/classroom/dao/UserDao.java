@@ -1,5 +1,5 @@
 package com.svalero.classroom.dao;
 
-public interface StudentDao {
+public interface UserDao {
 
 }

@@ -18,12 +18,15 @@ import java.util.UUID;
 
 import static com.svalero.classroom.dao.Database.jdbi;
 
-@WebServlet("/add-classroom")
+@WebServlet("/edit-classroom")
 @MultipartConfig
-public class AddClassroom extends HttpServlet {
+public class EditClassroom extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        String id = request.getParameter("id");
+
         String name = request.getParameter("name");
         if (name.isEmpty()) {
             sendError(response, "El classroom debe tener nombre");
@@ -35,15 +38,17 @@ public class AddClassroom extends HttpServlet {
 
         try {
             Database.connect();
-            ClassroomDao classrommDao = jdbi.onDemand(ClassroomDao.class);
-            // Comprueba si ya existe un classroom con ese nombre
-            if (classrommDao.getByName(name) != null) {
-                sendError(response, "Ya existe un classroom con ese nombre");
-                return;
+            ClassroomDao classroomDao = jdbi.onDemand(ClassroomDao.class);
+            if (action.equals("Registrar")) {
+                // Comprueba si ya existe un classroom con ese nombre
+                if (classroomDao.getByName(name) != null) {
+                    sendError(response, "Ya existe un classroom con ese nombre");
+                    return;
+                }
             }
 
-            // Procesar la imagen enviada
-            String filename = "";
+            String filename = "no-image.png";
+            // Procesar la imagen enviada (si se ha enviado -> getSize() > 0)
             if (image.getSize() > 0) {
                 filename = UUID.randomUUID() + ".png";
                 String imagePath = "/home/astable/apache-tomcat-11.0.18/webapps/classroom_images";
@@ -51,8 +56,19 @@ public class AddClassroom extends HttpServlet {
                 Files.copy(inputStream, Paths.get(imagePath + "/" + filename));
             }
 
-            classrommDao.add(name, description, filename, UUID.randomUUID().toString(), category);
-            sendSuccess(response, "Se ha añadido el classroom correctamente");
+            if (action.equals("Registrar")) {
+                classroomDao.add(name, description, filename, UUID.randomUUID().toString(), category);
+                sendSuccess(response, "Se ha añadido el classroom correctamente");
+            } else {
+                if (image.getSize() == 0) {
+                    // El usuario no modifica la imagen (getSize() == 0)
+                    classroomDao.modify(name, description, UUID.randomUUID().toString(), category, Integer.parseInt(id));
+                } else {
+                    // La i
+                    classroomDao.modify(name, description, filename, UUID.randomUUID().toString(), category, Integer.parseInt(id));
+                }
+                sendSuccess(response, "Se ha modificado el classroom correctamente");
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
