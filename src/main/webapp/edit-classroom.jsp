@@ -1,3 +1,6 @@
+<%@ page import="com.svalero.classroom.model.Classroom" %>
+<%@ page import="com.svalero.classroom.dao.Database" %>
+<%@ page import="com.svalero.classroom.dao.ClassroomDao" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ include file="includes/header.jsp" %>
@@ -13,7 +16,7 @@
             $.ajax({
                 type: "POST",
                 enctype: "multipart/form-data",
-                url: "add-classroom",
+                url: "edit-classroom",
                 data: data,
                 processData: false,
                 contentType: false,
@@ -32,16 +35,28 @@
     });
 </script>
 
+<%
+    String id = request.getParameter("id");
+    String action = "Registrar";
+    Classroom classroom = null;
+    if (id != null) {
+        action = "Editar";
+        Database.connect();
+        ClassroomDao classroomDao = Database.jdbi.onDemand(ClassroomDao.class);
+        classroom = classroomDao.getById(Integer.parseInt(id));
+    }
+%>
+
 <main>
     <div class="container">
         <form id="new-form" class="row g-3" method="post" enctype="multipart/form-data">
             <div class="col-12">
                 <label class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="name">
+                <input type="text" class="form-control" name="name" value="<%= classroom != null ? classroom.getName() : "" %>">
             </div>
             <div class="col-12">
                 <label class="form-label">Descripción</label>
-                <textarea class="form-control" name="description"></textarea>
+                <textarea class="form-control" name="description"><%= classroom != null ? classroom.getDescription() : "" %></textarea>
             </div>
             <div class="col-12">
                 <label class="form-label">Imagen</label>
@@ -49,11 +64,13 @@
             </div>
             <div class="col-12">
                 <label class="form-label">Categoria</label>
-                <input type="text" class="form-control" name="category">
+                <input type="text" class="form-control" name="category" value="<%= classroom != null ? classroom.getCategory() : "" %>">
             </div>
             <div class="col-12">
-                <button id="new-button" class="btn btn-primary">Registrar</button>
+                <button id="new-button" class="btn btn-primary"><%= action %></button>
             </div>
+            <input type="hidden" name="id" value="<%= id %>"/>
+            <input type="hidden" name="action" value="<%= action %>"/>
         </form>
         <br/>
         <div id="result"></div>

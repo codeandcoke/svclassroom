@@ -15,8 +15,11 @@ public interface ClassroomDao {
     @SqlUpdate("DELETE FROM classrooms WHERE id = ?")
     void delete(int id);
 
-    @SqlUpdate("UPDATE classrooms SET name = ?, description = ?, image = ?, meet_url = ?, categorya = ? WHERE id = ?")
+    @SqlUpdate("UPDATE classrooms SET name = ?, description = ?, image = ?, meet_url = ?, category = ? WHERE id = ?")
     void modify(String name, String description, String image, String meetURL, String category, int id);
+
+    @SqlUpdate("UPDATE classrooms SET name = ?, description = ?, meet_url = ?, category = ? WHERE id = ?")
+    void modify(String name, String description, String meetURL, String category, int id);
 
     @SqlQuery("SELECT * FROM classrooms")
     @UseRowMapper(ClassroomMapper.class)

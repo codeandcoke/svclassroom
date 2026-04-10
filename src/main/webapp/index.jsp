@@ -17,7 +17,7 @@
               Estos son tus classrooms activos
             </p>
             <p>
-              <a href="new-classroom.jsp" class="btn btn-primary my-2">Crear un classroom</a>
+              <a href="edit-classroom.jsp" class="btn btn-primary my-2">Crear un classroom</a>
             </p>
           </div>
         </div>
@@ -51,7 +51,7 @@
                     class="d-flex justify-content-between align-items-center"
                   >
                     <div class="btn-group">
-                      <a href="#" type="button" class="btn btn-sm btn-outline-warning">
+                      <a href="edit-classroom.jsp?id=<%= classroom.getId() %>" type="button" class="btn btn-sm btn-outline-warning">
                         Editar
                       </a>
                       <a href="remove-classroom?id=<%= classroom.getId() %>" type="button" class="btn btn-sm btn-outline-danger"
